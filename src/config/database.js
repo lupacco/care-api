@@ -4,6 +4,13 @@ dotenv.config()
 
 const {Pool} = pg
 
-export const connectionDb = new Pool({
+const configDatabase = {
     connectionString: process.env.DATABASE_URL,
-})
+    ...(process.env.NODE_ENV === "production" && {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    }),
+  };
+
+export const connectionDb = new Pool({configDatabase})
