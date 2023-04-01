@@ -1,14 +1,15 @@
+import userServices from "../services/userServices.js"
+
 async function create(req, res, next){
     const {type, name, email, password} = req.body
 
     try {
-        await userService.create(type, name, email, password)
-        if (type === 'doctor'){
-            await doc
-        }else{
-
-        }
-        return res.sendStatus(201)
+        const result = await userServices.create(type, name, email, password)
+        const createdUserId = result.rows[0].id
+        
+        console.log(createdUserId)
+        return res.send()
+        next()
     } catch (err) {
         next(err)
     }
