@@ -6,9 +6,9 @@ async function create(req, res, next){
     try {
         const result = await userServices.create(type, name, email, password)
         const createdUserId = result.rows[0].id
+
+        req.body.userId = createdUserId
         
-        console.log(createdUserId)
-        return res.send()
         next()
     } catch (err) {
         next(err)

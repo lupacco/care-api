@@ -13,6 +13,22 @@ function duplicatedEmailError(email) {
   };
 }
 
+function duplicatedCpf(cpf){
+  return {
+    name: "DuplicatedCpfError",
+    message: "There is already an user using this CPF",
+    cpf,
+  };
+}
+
+function duplicatedCrm(crm){
+  return {
+    name: "DuplicatedCrmError",
+    message: "There is already an user using this CRM",
+    crm,
+  };
+}
+
 function unauthorizedError() {
   return {
     name: "UnauthorizedError",
@@ -37,6 +53,8 @@ function invalidCredentialsError() {
 export default {
   conflictError,
   duplicatedEmailError,
+  duplicatedCpf,
+  duplicatedCrm,
   unauthorizedError,
   notFoundError,
   invalidCredentialsError,

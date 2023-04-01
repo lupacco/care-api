@@ -16,4 +16,10 @@ async function create({type, name, email, password}){
     )
 }
 
-export default {findByEmail, create}
+async function deleteById(userId){
+    return await connectionDb.query(
+        `DELETE FROM users WHERE id = $1;`,[userId]
+    )
+}
+
+export default {findByEmail, create, deleteById}
