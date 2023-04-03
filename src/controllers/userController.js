@@ -15,4 +15,16 @@ async function create(req, res, next){
     }
 }
 
-export default {create}
+async function signIn(req, res, next){
+    const {email, password} = req.body
+
+    try {
+        const result = await userServices.signIn(email, password)     
+
+        return res.status(200).send(result)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export default {create, signIn}

@@ -15,4 +15,6 @@ authRouter.post(
   doctorController.create
 );
 
+authRouter.post("/signin", userController.signIn)
+
 export default authRouter;
