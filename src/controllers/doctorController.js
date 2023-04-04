@@ -24,8 +24,7 @@ async function findByName(req, res, next){
 
 async function findBySpeciality(req, res, next){
     const {speciality} = req.body
-
-    console.log(req.body)
+    
     try {
         const result = await doctorServices.findBySpeciality(speciality)
 

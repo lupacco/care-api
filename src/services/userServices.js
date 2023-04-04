@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt"
 import errors from "../errors/index.js"
 import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
-dotenv.config()
 //Repositories
 import userRepository from "../repositories/userRepository.js"
 
@@ -23,7 +21,7 @@ async function signIn(email, password){
 
     if(!rowCount || !passwordIsCorrect) throw errors.invalidCredentialsError()
 
-    const token = jwt.sign({id: user.id}, process.env.SECRET_JWT)
+    const token = jwt.sign({userId: user.id}, process.env.SECRET_JWT)
 
     return token
 }

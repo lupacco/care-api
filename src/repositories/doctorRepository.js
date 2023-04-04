@@ -30,13 +30,12 @@ async function findByName(name) {
 }
 
 async function findBySpeciality(speciality) {
-    console.log("entrou no repository de doctor")
   return await connectionDb.query(
     `
     SELECT doctors.id, doctors.crm, doctors.speciality, users.name FROM doctors
     JOIN users ON users.id = doctors."userId"
-    WHERE doctors.speciality ILIKE '${speciality}%'
-    `
+    WHERE doctors.speciality=$1
+    `,[speciality]
   );
 }
 
