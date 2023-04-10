@@ -17,7 +17,7 @@ async function create(req, res, next){
 
 async function signIn(req, res, next){
     const {email, password} = req.body
-
+    
     try {
         const result = await userServices.signIn(email, password)     
 

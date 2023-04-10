@@ -35,8 +35,18 @@ async function findBySpeciality(speciality) {
     SELECT doctors.id, doctors.crm, doctors.speciality, users.name FROM doctors
     JOIN users ON users.id = doctors."userId"
     WHERE doctors.speciality=$1
-    `,[speciality]
+    `,
+    [speciality]
   );
 }
 
-export default { create, findByCrm, findByName, findBySpeciality };
+async function findByUserId(userId) {
+  return await connectionDb.query(
+    `
+  SELECT doctors.id FROM doctors WHERE "userId" = $1
+  `,
+    [userId]
+  );
+}
+
+export default { create, findByCrm, findByName, findBySpeciality, findByUserId };

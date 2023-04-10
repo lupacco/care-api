@@ -25,9 +25,10 @@ export async function validateToken(req, res, next) {
                 } = await userRepository.findById(decoded.userId);
 
             if(!user) throw errors.unauthorizedError()
-            
-            res.locals.user = user
 
+            delete user.password
+
+            res.locals.user = user
             next()
         } catch (err) {
             next(err)

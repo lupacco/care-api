@@ -14,7 +14,7 @@ export function handleApplicationErrors(err, req, res, next) {
 
   if (
     err.name === "UnauthorizedError" ||
-    err.name === "InvalidCredentialsError"
+    err.name === "InvalidCredentialsError" || err.name === "InvalidTypeOfUserError"
   ) {
     return res.status(httpStatus.UNAUTHORIZED).send({ message: err.message });
   }

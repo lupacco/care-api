@@ -1,6 +1,9 @@
-import Joi from "joi";
+import JoiImport from "joi";
+import DateExtension from "@hapi/joi-date";
+
+const Joi = JoiImport.extend(DateExtension);
 
 export const appointmentSchema = Joi.object({
-    date: Joi.string().required(),
-    time: Joi.string().required()
-})
+  date: Joi.date().format("YYYY/MM/DD").required(),
+  time: Joi.string().required(),
+});
