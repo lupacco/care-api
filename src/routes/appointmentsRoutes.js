@@ -8,6 +8,7 @@ const appointmentsRouter = Router()
 
 appointmentsRouter.post("/appointments", validateToken, validateSchema(appointmentSchema), appointmentsController.create)
 appointmentsRouter.get("/appointments", validateToken, appointmentsController.getFreeAppointments)
-appointmentsRouter.patch("/appointments/schedule", validateToken, appointmentsController.schedule)
+appointmentsRouter.patch("/appointments/schedule/:id", validateToken, appointmentsController.schedule)
+appointmentsRouter.patch("/appointments/update/:status/:id", validateToken, appointmentsController.updateStatus)
 
 export default appointmentsRouter

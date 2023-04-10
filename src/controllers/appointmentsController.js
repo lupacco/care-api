@@ -23,12 +23,25 @@ async function getFreeAppointments(req, res, next){
 
 async function schedule(req, res, next){
     const {user} = res.locals
+    const {id} = req.params
     try {
-        await appointmentServices.schedule(user)
-        return res.senStatus(200)
+        await appointmentServices.schedule(user, id)
+        console.log('fez o appointment')
+        return res.sendStatus(200)
     } catch (err) {
         next(err)
     }
 }
 
-export default {create, getFreeAppointments, schedule}
+async function updateStatus(req, res, next){
+    const {user} = res.locals
+    const {status, id} = req.params
+    try {
+        await appointmentServices.updateStatus(id, status, user)
+        return res.sendStatus(200)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export default {create, getFreeAppointments, schedule, updateStatus}

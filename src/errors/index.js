@@ -53,7 +53,7 @@ function invalidCredentialsError() {
 function invalidTypeOfUserError(){
   return{
     name: "InvalidTypeOfUserError",
-    message: "You must be a doctor to be able to create a new appointment"
+    message: "Your type of user don't have permissions for this action"
   }
 }
 
