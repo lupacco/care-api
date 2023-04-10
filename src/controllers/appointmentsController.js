@@ -1,4 +1,3 @@
-import { request } from "express"
 import appointmentServices from "../services/appointmentServices.js"
 
 async function create(req, res, next){
@@ -13,13 +12,23 @@ async function create(req, res, next){
     }
 }
 
-async function getAllAppointments(req, res, next){
+async function getFreeAppointments(req, res, next){
     try {
-        const result = await appointmentServices.getAllAppointments()
+        const result = await appointmentServices.getFreeAppointments()
         res.send(result)
     } catch (err) {
         next(err)
     }
 }
 
-export default {create, getAllAppointments}
+async function schedule(req, res, next){
+    const {user} = res.locals
+    try {
+        await appointmentServices.schedule(user)
+        return res.senStatus(200)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export default {create, getFreeAppointments, schedule}

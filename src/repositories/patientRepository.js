@@ -15,4 +15,10 @@ async function create(cpf, userId){
     [cpf, userId])
 }
 
-export default {findByCpf, create}
+async function findByUserId(id){
+    return await connectionDb.query(`
+    SELECT * FROM patients WHERE id=$1
+    `,[id])
+}
+
+export default {findByCpf, create, findByUserId}

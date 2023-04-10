@@ -7,6 +7,7 @@ import { validateToken } from "../middlewares/validateToken.js";
 const appointmentsRouter = Router()
 
 appointmentsRouter.post("/appointments", validateToken, validateSchema(appointmentSchema), appointmentsController.create)
-appointmentsRouter.get("/appointments", validateToken, appointmentsController.getAllAppointments)
+appointmentsRouter.get("/appointments", validateToken, appointmentsController.getFreeAppointments)
+appointmentsRouter.patch("/appointments/schedule", validateToken, appointmentsController.schedule)
 
 export default appointmentsRouter

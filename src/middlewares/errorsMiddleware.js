@@ -9,7 +9,7 @@ export function handleApplicationErrors(err, req, res, next) {
   ) {
     return res
       .status(httpStatus.CONFLICT)
-      .send({ message: err.message, email: err.email });
+      .send({ message: err.message, email: err?.email });
   }
 
   if (
