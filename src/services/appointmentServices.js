@@ -50,6 +50,15 @@ async function schedule(user, id) {
 
 async function updateStatus(id, status, user) {
   if (user.type !== "doctor") throw errors.invalidTypeOfUserError();
+
+  const {rows:[appointment]} = await appointmentRepository.findById(id);
+  const {rows:[doctor]} = await doctorRepository.findByUserId(user.id);
+
+  console.log(user)
+  console.log(doctor)
+  console.log(appointment)
+
+  if(appointment.doctorId !== doctor.id) throw errors.unauthorizedError()
   
   switch (status) {
     case "cancel":
@@ -87,7 +96,20 @@ async function getScheduledAppointments(user){
 }
 
 async function getHistory(user){
-    
+    switch (user.type) {
+        case 'patient':
+            const {
+                rows: [patient],
+              } = await patientRepository.findByUserId(user.id);
+            return await appointmentRepository.getPatientHistory(patient.id);
+        case 'doctor':
+            const {
+                rows: [doctor],
+              } = await doctorRepository.findByUserId(user.id);
+            return await appointmentRepository.getDoctorHistory(doctor.id);
+        default:
+            break;
+    }
 }
 
 export default { getFreeAppointments, create, schedule, updateStatus, getScheduledAppointments, getHistory };

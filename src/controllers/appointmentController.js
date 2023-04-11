@@ -46,10 +46,10 @@ async function updateStatus(req, res, next){
 
 async function getScheduledAppointments(req, res, next){
     const {user} = res.locals
-    console.log(user)
+
     try {
-        const result = await appointmentServices.getScheduledAppointments(user)
-        return res.status(200).send(result.rows)
+        const {rows: result} = await appointmentServices.getScheduledAppointments(user)
+        return res.status(200).send(result)
     } catch (err) {
         next(err)
     }
@@ -60,7 +60,8 @@ async function getHistory(req, res, next){
 
     try {
         console.log(user)
-        return res.sendStatus(200)
+        const {rows: result} = await appointmentServices.getHistory(user)
+        return res.status(200).send(result)
     } catch (err) {
         next(err)
     }

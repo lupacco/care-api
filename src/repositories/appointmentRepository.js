@@ -153,6 +153,49 @@ async function getDoctorScheduledAppointments(doctorId) {
   );
 }
 
+async function getPatientHistory(patientId){
+  return await connectionDb.query(
+    `
+    SELECT
+        appointments.id,
+        appointments."scheduledDate",
+        appointments."scheduledTime",
+        users.name AS "doctorName",
+        doctors.speciality
+    FROM appointments
+    JOIN doctors
+        ON doctors.id = appointments."doctorId"
+    JOIN users
+        ON users.id = doctors."userId"
+    JOIN patients
+        ON patients.id = appointments."patientId"
+    WHERE appointments.status='done' AND patients.id=$1
+    `,
+    [patientId]
+  );
+}
+
+async function getDoctorHistory(doctorId){
+  return await connectionDb.query(
+    `
+    SELECT
+        appointments.id,
+        appointments."scheduledDate",
+        appointments."scheduledTime",
+        users.name AS "patientName"
+    FROM appointments
+    JOIN patients
+        ON patients.id = appointments."patientId"
+    JOIN users
+        ON users.id = patients."userId"
+    JOIN doctors
+        ON doctors.id = appointments."doctorId"
+    WHERE appointments.status='done' AND doctors.id=$1
+    `,
+    [doctorId]
+  );
+}
+
 export default {
   getAppointment,
   getFreeAppointments,
@@ -164,5 +207,7 @@ export default {
   finish,
   free,
   getPatientScheduledAppointments,
-  getDoctorScheduledAppointments
+  getDoctorScheduledAppointments,
+  getPatientHistory,
+  getDoctorHistory
 };
