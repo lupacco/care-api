@@ -26,7 +26,7 @@ async function schedule(req, res, next){
     const {id} = req.params
     try {
         await appointmentServices.schedule(user, id)
-        console.log('fez o appointment')
+
         return res.sendStatus(200)
     } catch (err) {
         next(err)
@@ -44,4 +44,26 @@ async function updateStatus(req, res, next){
     }
 }
 
-export default {create, getFreeAppointments, schedule, updateStatus}
+async function getScheduledAppointments(req, res, next){
+    const {user} = res.locals
+    console.log(user)
+    try {
+        const result = await appointmentServices.getScheduledAppointments(user)
+        return res.status(200).send(result.rows)
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function getHistory(req, res, next){
+    const {user} = res.locals
+
+    try {
+        console.log(user)
+        return res.sendStatus(200)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export default {create, getFreeAppointments, schedule, updateStatus, getScheduledAppointments, getHistory}

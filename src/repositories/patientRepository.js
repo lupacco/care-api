@@ -17,7 +17,7 @@ async function create(cpf, userId){
 
 async function findByUserId(id){
     return await connectionDb.query(`
-    SELECT * FROM patients WHERE id=$1
+    SELECT * FROM patients WHERE "userId"=$1
     `,[id])
 }
 

@@ -43,13 +43,17 @@ async function getAppointment(date, time, doctorId) {
   );
 }
 
-async function findById(id){
-    return await connectionDb.query(`
+async function findById(id) {
+  return await connectionDb.query(
+    `
     SELECT * FROM appointments WHERE id = $1
-    `,[id])
+    `,
+    [id]
+  );
 }
 
 async function schedule(id, patientId) {
+  console.log("schedule");
   return await connectionDb.query(
     `
     UPDATE appointments 
@@ -106,6 +110,28 @@ async function free(id) {
   );
 }
 
+async function getPatientScheduledAppointments(patientId) {
+  return await connectionDb.query(
+    `
+    SELECT
+        appointments.id,
+        appointments."scheduledDate",
+        appointments."scheduledTime",
+        users.name AS "doctorName",
+        doctors.speciality
+    FROM appointments
+    JOIN doctors
+        ON doctors.id = appointments."doctorId"
+    JOIN users
+        ON users.id = doctors."userId"
+    JOIN patients
+        ON patients.id = appointments."patientId"
+    WHERE appointments.status='scheduled' AND patients.id=$1
+    `,
+    [patientId]
+  );
+}
+
 export default {
   getAppointment,
   getFreeAppointments,
@@ -116,4 +142,5 @@ export default {
   confirm,
   finish,
   free,
+  getPatientScheduledAppointments
 };
