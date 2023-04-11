@@ -72,18 +72,15 @@ async function updateStatus(id, status, user) {
 async function getScheduledAppointments(user){
     switch (user.type) {
         case 'patient':
-            console.log('entrou caso 1')
             const {
                 rows: [patient],
               } = await patientRepository.findByUserId(user.id);
             return await appointmentRepository.getPatientScheduledAppointments(patient.id);
         case 'doctor':
-            console.log('entrou caso 2')
             const {
                 rows: [doctor],
-              } = await patientRepository.findByUserId(user.id);
-            return await appointmentRepository.getPatientAppointments(patient.id);
-    
+              } = await doctorRepository.findByUserId(user.id);
+            return await appointmentRepository.getDoctorScheduledAppointments(doctor.id);
         default:
             break;
     }

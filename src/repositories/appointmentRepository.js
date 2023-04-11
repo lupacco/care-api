@@ -132,6 +132,27 @@ async function getPatientScheduledAppointments(patientId) {
   );
 }
 
+async function getDoctorScheduledAppointments(doctorId) {
+  return await connectionDb.query(
+    `
+    SELECT
+        appointments.id,
+        appointments."scheduledDate",
+        appointments."scheduledTime",
+        users.name AS "patientName"
+    FROM appointments
+    JOIN patients
+        ON patients.id = appointments."patientId"
+    JOIN users
+        ON users.id = patients."userId"
+    JOIN doctors
+        ON doctors.id = appointments."doctorId"
+    WHERE appointments.status='scheduled' AND doctors.id=$1
+    `,
+    [doctorId]
+  );
+}
+
 export default {
   getAppointment,
   getFreeAppointments,
@@ -142,5 +163,6 @@ export default {
   confirm,
   finish,
   free,
-  getPatientScheduledAppointments
+  getPatientScheduledAppointments,
+  getDoctorScheduledAppointments
 };
